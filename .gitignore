@@ -58,6 +58,9 @@ temp/
 config/production.js
 config/keys_prod.js
 
+backend/package-lock.json
+frontend/package-lock.json
+
 # SSL certificates
 *.pem
 *.key
