@@ -1,23 +1,65 @@
 import React from 'react';
-import { AppBar, Box, Toolbar, Typography, Button } from '@mui/material';
+import { AppBar, Box, Toolbar, Typography, Button, Container } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 function Navbar() {
   const navigate = useNavigate();
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Task Tracker
+    <AppBar position="absolute" sx={{ width: '100%' }}>
+      <Container maxWidth={false}>
+        <Toolbar disableGutters>
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{
+              flexGrow: 1,
+              cursor: 'pointer',
+              fontWeight: 700,
+              letterSpacing: '.1rem'
+            }}
+            onClick={() => navigate('/')}
+          >
+            TASK TRACKER
           </Typography>
-          <Button color="inherit" onClick={() => navigate('/login')}>Login</Button>
-          <Button color="inherit" onClick={() => navigate('/register')}>Register</Button>
-          <Button color="inherit" onClick={() => navigate('/dashboard')}>Dashboard</Button>
+          <Box sx={{ display: 'flex', gap: 2 }}>
+            <Button 
+              color="inherit" 
+              onClick={() => navigate('/login')}
+              sx={{ 
+                '&:hover': { 
+                  backgroundColor: 'rgba(255, 255, 255, 0.1)' 
+                }
+              }}
+            >
+              Login
+            </Button>
+            <Button 
+              color="inherit" 
+              onClick={() => navigate('/register')}
+              sx={{ 
+                '&:hover': { 
+                  backgroundColor: 'rgba(255, 255, 255, 0.1)' 
+                }
+              }}
+            >
+              Register
+            </Button>
+            <Button 
+              color="inherit" 
+              onClick={() => navigate('/dashboard')}
+              sx={{ 
+                '&:hover': { 
+                  backgroundColor: 'rgba(255, 255, 255, 0.1)' 
+                }
+              }}
+            >
+              Dashboard
+            </Button>
+          </Box>
         </Toolbar>
-      </AppBar>
-    </Box>
+      </Container>
+    </AppBar>
   );
 }
 
