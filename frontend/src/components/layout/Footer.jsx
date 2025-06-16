@@ -1,28 +1,14 @@
-// filepath: d:\ILab_Projects\Task-Tracker-Project\frontend\src\components\layout\Footer.jsx
+
+// File: src/components/layout/Footer.jsx
 import React from 'react';
-import { Box, Typography } from '@mui/material';
 
 function Footer() {
   return (
-    <Box
-      component="footer"
-      sx={{
-        py: 3,
-        px: 2,
-        mt: 'auto',
-        backgroundColor: (theme) =>
-          theme.palette.mode === 'light'
-            ? theme.palette.grey[200]
-            : theme.palette.grey[800],
-        position: 'fixed',
-        bottom: 0,
-        width: '100%'
-      }}
-    >
-      <Typography variant="body2" color="text.secondary" align="center">
+    <footer className="bg-gray-200 text-center p-4 mt-auto">
+      <p className="text-gray-600">
         © {new Date().getFullYear()} Task Tracker. All rights reserved.
-      </Typography>
-    </Box>
+      </p>
+    </footer>
   );
 }
 
