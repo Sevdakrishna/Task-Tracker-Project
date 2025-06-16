@@ -1,65 +1,65 @@
-import React from 'react';
-import { AppBar, Box, Toolbar, Typography, Button, Container } from '@mui/material';
+// File: src/components/layout/Navbar.jsx
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext';
 
 function Navbar() {
   const navigate = useNavigate();
+  const { user, logout } = useContext(AuthContext);
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
 
   return (
-    <AppBar position="absolute" sx={{ width: '100%' }}>
-      <Container maxWidth={false}>
-        <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{
-              flexGrow: 1,
-              cursor: 'pointer',
-              fontWeight: 700,
-              letterSpacing: '.1rem'
-            }}
-            onClick={() => navigate('/')}
-          >
-            TASK TRACKER
-          </Typography>
-          <Box sx={{ display: 'flex', gap: 2 }}>
-            <Button 
-              color="inherit" 
-              onClick={() => navigate('/login')}
-              sx={{ 
-                '&:hover': { 
-                  backgroundColor: 'rgba(255, 255, 255, 0.1)' 
-                }
-              }}
-            >
-              Login
-            </Button>
-            <Button 
-              color="inherit" 
-              onClick={() => navigate('/register')}
-              sx={{ 
-                '&:hover': { 
-                  backgroundColor: 'rgba(255, 255, 255, 0.1)' 
-                }
-              }}
-            >
-              Register
-            </Button>
-            <Button 
-              color="inherit" 
-              onClick={() => navigate('/dashboard')}
-              sx={{ 
-                '&:hover': { 
-                  backgroundColor: 'rgba(255, 255, 255, 0.1)' 
-                }
-              }}
-            >
-              Dashboard
-            </Button>
-          </Box>
-        </Toolbar>
-      </Container>
-    </AppBar>
+    <nav className="bg-blue-600 text-white p-4 shadow-md">
+      <div className="container mx-auto flex justify-between items-center">
+        <h1
+          onClick={() => navigate('/')}
+          className="text-xl font-bold cursor-pointer"
+        >
+          Task Tracker
+        </h1>
+
+        <div className="space-x-4">
+          {/* If no one is logged in */}
+          {!user && (
+            <>
+              <button onClick={() => navigate('/login')} className="hover:underline">
+                Login
+              </button>
+              <button onClick={() => navigate('/register')} className="hover:underline">
+                Register
+              </button>
+            </>
+          )}
+
+          {/* If user is logged in */}
+          {user && (
+            <>
+              {/* Show role-specific dashboards */}
+              {user.role === 'admin' && (
+                <button onClick={() => navigate('/admin-dashboard')} className="hover:underline">
+                  Admin Dashboard
+                </button>
+              )}
+              {user.role === 'user' && (
+                <button onClick={() => navigate('/user-dashboard')} className="hover:underline">
+                  User Dashboard
+                </button>
+              )}
+
+              <span className="text-sm italic">Hi, {user.username}</span>
+
+              <button onClick={handleLogout} className="hover:underline">
+                Logout
+              </button>
+            </>
+          )}
+        </div>
+      </div>
+    </nav>
   );
 }
 
