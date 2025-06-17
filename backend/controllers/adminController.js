@@ -11,9 +11,11 @@ exports.getAllTasksForAdmin = async (req, res) => {
       SELECT t.id, t.title, t.description, t.due_date, t.status, t.user_id, u.username, u.email
       FROM tasks t
       JOIN users u ON t.user_id = u.id
-      ORDER BY t.due_date DESC
+      
     `);
 
+    // console.log("Task Printing.")
+    // console.log(tasks);
     res.status(200).json({ tasks });
   } catch (err) {
     console.error(err);
@@ -22,16 +24,29 @@ exports.getAllTasksForAdmin = async (req, res) => {
 };
 
 
+exports.getAllUsers = async (req, res) => {
+  if (req.user.role !== 'admin') {
+    return res.status(403).json({ message: 'Access denied: Admins only' });
+  }
 
-// Filter tasks by user or status
+  try {
+    const [users] = await db.query('SELECT id, username FROM users');
+    res.status(200).json(users); // send directly as array
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Error retrieving users' });
+  }
+};
+
 exports.filterTasks = async (req, res) => {
   if (req.user.role !== 'admin') {
     return res.status(403).json({ message: 'Access denied: Admins only' });
   }
 
-  const { user_id, status } = req.query;
+  const { user_id, status, start_date, end_date } = req.query;
+
   let query = `
-    SELECT t.id, t.title, t.description, t.due_date, t.status, t.user_id, u.username, u.email
+    SELECT t.id, t.title, t.description, t.due_date, t.status, t.user_id, u.username
     FROM tasks t
     JOIN users u ON t.user_id = u.id
     WHERE 1=1
@@ -48,16 +63,27 @@ exports.filterTasks = async (req, res) => {
     values.push(status);
   }
 
+  if (start_date) {
+    query += ' AND t.due_date >= ?';
+    values.push(start_date);
+  }
+
+  if (end_date) {
+    query += ' AND t.due_date <= ?';
+    values.push(end_date);
+  }
+
   query += ' ORDER BY t.due_date DESC';
 
   try {
     const [tasks] = await db.query(query, values);
-    res.status(200).json({ tasks });
+    res.status(200).json(tasks);
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Error filtering tasks' });
   }
 };
+
 
 
 
