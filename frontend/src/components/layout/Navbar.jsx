@@ -40,11 +40,13 @@ function Navbar() {
         <div>
           <h1
             onClick={handleLogoClick}
+
             className="text-2xl sm:text-3xl font-bold text-cyan-400 cursor-pointer hover:scale-105 transition-transform duration-200">
           <img src="/image.png" alt="Task Tracker Logo" className="w-8 h-8 inline-block mr-2" style={{ verticalAlign: 'middle' }} />
 
             Task Tracker
             
+
           </h1>
         </div>
 

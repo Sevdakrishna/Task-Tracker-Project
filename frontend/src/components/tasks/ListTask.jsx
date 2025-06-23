@@ -17,6 +17,7 @@ function ListTask({ tasks }) {
         <tbody>
           {tasks.map((task) => (
             <tr key={task.id} className="border-t border-gray-700 hover:bg-gray-800">
+
               <td className="p-3 whitespace-nowrap">{task.id}</td>
               <td className="p-3 whitespace-nowrap">{task.username}</td>
 
@@ -35,13 +36,16 @@ function ListTask({ tasks }) {
               <td className="p-3">
                 <span
                   className={`px-2 py-1 rounded-full text-xs font-medium whitespace-nowrap ${
+
                     task.status === 'Completed'
                       ? 'bg-green-700 text-green-100'
                       : task.status === 'In Progress'
                       ? 'bg-yellow-600 text-yellow-100'
                       : 'bg-red-700 text-red-100'
                   }`}
+
                   title={task.status}
+
                 >
                   {task.status}
                 </span>
